@@ -9,6 +9,7 @@ name = "pypi"
 
 requests-html = "*"
 selenium = "*"
+networkx = "*"
 
 
 [dev-packages]
