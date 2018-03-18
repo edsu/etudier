@@ -1,12 +1,28 @@
 <img style="float: left;" height=300 src="https://raw.githubusercontent.com/edsu/etudier/master/example/output.png">
 
-*étudier* will drive a (non-headless) browser to collect a citation graph from
-Google Scholar. It's non-headless because Google is very protective of this data
-and routinely will ask you to solve a captcha (identifying street signs, cars,
-etc in photos). *étudier* will allow you to complete these tasks when they occur
-and then will continue on its way collecting data.
+*étudier* is a small Python program that uses [Selenium] and [requests-html] to
+drive a (non-headless) browser to collect a citation graph around a particular
+citation from [Google Scholar] and write it out as a [Gephi] file using
+[networkx].
 
-Currently it outputs a GEXF file that you can load into Gephi.
+If you are wondering why it uses a non-headless it's because Google is [quite
+protective] of this data and routinely will ask you to solve a captcha
+(identifying street signs, cars, etc in photos).  *étudier* will allow you to
+complete these tasks when they occur and then will continue on its way
+collecting data.
+
+### Install
+
+You'll need to install [ChromeDriver] before doing anything else. If you use
+Homebrew on OS X this is as easy as:
+
+    brew install chromedriver
+
+Then you'll want to install Python3 and:
+
+    pip3 install etudier
+
+Now you should be ready:
 
 ### Run
 
@@ -54,6 +70,10 @@ collected from Google Scholar including:
 - *cited-by* - the number of other publications that cite the publication
 - *cited-by-url* - a Google Scholar URL for the list of citing publications
 
-
-
 [Theory in Anthropology since the Sixties]: https://scholar.google.com/scholar?hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=
+[Google Scholar]: https://scholar.google.com
+[Selenium]: https://docs.seleniumhq.org/
+[requests-html]: http://html.python-requests.org/
+[quite protective]: https://www.quora.com/Are-there-technological-or-logistical-challenges-that-explain-why-Google-does-not-have-an-official-API-for-Google-Scholar
+[Gephi]: https://gephi.org/
+[networkx]: https://networkx.github.io/
