@@ -1,12 +1,13 @@
 <img style="float: left;" height=300 src="https://raw.githubusercontent.com/edsu/etudier/master/example/output.png">
 
 *étudier* is a small Python program that uses [Selenium] and [requests-html] to
-drive a (non-headless) browser to collect a citation graph around a particular
-citation from [Google Scholar] and write it out as a [Gephi] file using
-[networkx].
+drive a *non-headless* browser to collect a citation graph around a particular
+[Google Scholar] citation. The resulting network is written out a [Gephi] file
+and a [D3] visualization using [networkx]. *The D3 visualization could use some
+work, so if you add style to it please submit a pull request.*
 
-If you are wondering why it uses a non-headless it's because Google is [quite
-protective] of this data and routinely will ask you to solve a captcha
+If you are wondering why it uses a non-headless browser it's because Google is
+[quite protective] of this data and routinely will ask you to solve a captcha
 (identifying street signs, cars, etc in photos).  *étudier* will allow you to
 complete these tasks when they occur and then will continue on its way
 collecting data.
@@ -18,11 +19,9 @@ Homebrew on OS X this is as easy as:
 
     brew install chromedriver
 
-Then you'll want to install Python3 and:
+Then you'll want to install [Python 3] and:
 
     pip3 install etudier
-
-Now you should be ready:
 
 ### Run
 
@@ -77,3 +76,5 @@ collected from Google Scholar including:
 [quite protective]: https://www.quora.com/Are-there-technological-or-logistical-challenges-that-explain-why-Google-does-not-have-an-official-API-for-Google-Scholar
 [Gephi]: https://gephi.org/
 [networkx]: https://networkx.github.io/
+[D3]: https://d3js.org/
+[Python 3]: https://www.python.org/downloads/
