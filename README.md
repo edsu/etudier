@@ -1,4 +1,4 @@
-<img src="">
+<img height=200 src="https://raw.githubusercontent.com/edsu/etudier/master/example/output.png">
 
 *étudier* will drive a (non-headless) browser to collect a citation graph from
 Google Scholar. It's non-headless because Google is very protective of this data
@@ -8,7 +8,7 @@ and then will continue on its way collecting data.
 
 Currently it outputs a GEXF file that you can load into Gephi.
 
-## Run
+### Run
 
 To use it you first need to navigate to a page on Google Scholar that you are
 interested, for example here is the page of citations that reference Sherry
@@ -17,7 +17,7 @@ pointed at that page.
 
 ./etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
 
-## --pages
+### --pages
 
 By default *étudier* will collect the 10 citations on that page and then look at
 the top 10 citatations that reference each one. So you will end up with no more
@@ -28,7 +28,7 @@ example this would result in no more than 400 (20 * 20) results being collected:
 
 ./etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=' --pages 2
 
-## --depth
+### --depth
 
 And finally if you would like to look at the citations of the citations you the
 --depth parameter. 
@@ -40,7 +40,7 @@ each, and then the top 10 citations of each, so no more than 1000 citations 1000
 citations (10 * 10 * 10). It's no more because there is certain to be some
 duplication of publications in the citations of each.
 
-## --output
+### --output
 
 By default a file called `output.gexf` will be written, but you can change this
 with the `--output` option. The output file will contain rudimentary metadata
