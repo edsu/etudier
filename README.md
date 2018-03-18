@@ -1,4 +1,4 @@
-<img height=200 src="https://raw.githubusercontent.com/edsu/etudier/master/example/output.png">
+<img style="float: left;" height=300 src="https://raw.githubusercontent.com/edsu/etudier/master/example/output.png">
 
 *étudier* will drive a (non-headless) browser to collect a citation graph from
 Google Scholar. It's non-headless because Google is very protective of this data
