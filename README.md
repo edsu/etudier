@@ -32,6 +32,9 @@ pointed at that page.
 
     etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
 
+Note: it's important to quote the URL so that the shell doesn't interpret the
+ampersands as an attempt to background the process.
+
 ### --pages
 
 By default *étudier* will collect the 10 citations on that page and then look at
@@ -41,14 +44,14 @@ than 100 citations being collected (10 on each page * 10 citations).
 If you would like to get more than one page of results use the `--pages`. For
 example this would result in no more than 400 (20 * 20) results being collected:
 
-    etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=' --pages 2
+    etudier.py --pages 2 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=' 
 
 ### --depth
 
 And finally if you would like to look at the citations of the citations you the
 --depth parameter. 
 
-    etudier.py https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc= --depth=2
+    etudier.py --depth 2 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
 
 This will collect the initial set of 10 citations, the top 10 citations for
 each, and then the top 10 citations of each, so no more than 1000 citations 1000
