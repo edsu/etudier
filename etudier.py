@@ -18,8 +18,8 @@ driver = webdriver.Chrome()
 def main(url, output, depth, pages):
     g = networkx.Graph()
     for from_pub, to_pub in get_citations(url, depth=depth, pages=pages):
-        g.add_node(from_pub['id'], **remove_nones(from_pub))
-        g.add_node(to_pub['id'], **remove_nones(to_pub))
+        g.add_node(from_pub['id'], label=from_pub['title'], **remove_nones(from_pub))
+        g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
         g.add_edge(from_pub['id'], to_pub['id'])
         print('%s -> %s' % (from_pub['title'], to_pub['title']))
     networkx.write_gexf(g, '%s.gexf' % output) 
