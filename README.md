@@ -2,9 +2,9 @@
 
 *étudier* is a small Python program that uses [Selenium] and [requests-html] to
 drive a *non-headless* browser to collect a citation graph around a particular
-[Google Scholar] citation. The resulting network is written out a [Gephi] file
-and a [D3] visualization using [networkx]. *The D3 visualization could use some
-work, so if you add style to it please submit a pull request.*
+[Google Scholar] citation. The resulting network is written out as a [Gephi]
+file and a [D3] visualization using [networkx]. *The D3 visualization could use
+some work, so if you add style to it please submit a pull request.*
 
 If you are wondering why it uses a non-headless browser it's because Google is
 [quite protective] of this data and routinely will ask you to solve a captcha
