@@ -30,7 +30,7 @@ interested, for example here is the page of citations that reference Sherry
 Ortner's [Theory in Anthropology since the Sixties]. Then you start *etudier* up
 pointed at that page.
 
-./etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
+    etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
 
 ### --pages
 
@@ -41,14 +41,14 @@ than 100 citations being collected (10 on each page * 10 citations).
 If you would like to get more than one page of results use the `--pages`. For
 example this would result in no more than 400 (20 * 20) results being collected:
 
-./etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=' --pages 2
+    etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=' --pages 2
 
 ### --depth
 
 And finally if you would like to look at the citations of the citations you the
 --depth parameter. 
 
-'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc= --depth=2
+    etudier.py https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc= --depth=2
 
 This will collect the initial set of 10 citations, the top 10 citations for
 each, and then the top 10 citations of each, so no more than 1000 citations 1000
