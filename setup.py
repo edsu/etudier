@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name = 'etudier',
-    version = '0.0.1',
+    version = '0.0.2',
     url = 'https://github.com/edsu/etudier',
     author = 'Ed Summers',
     author_email = 'ehs@pobox.com',
