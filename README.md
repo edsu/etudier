@@ -26,11 +26,17 @@ Then you'll want to install [Python 3] and:
 ### Run
 
 To use it you first need to navigate to a page on Google Scholar that you are
-interested, for example here is the page of citations that reference Sherry
+interested in, for example here is the page of citations that reference Sherry
 Ortner's [Theory in Anthropology since the Sixties]. Then you start *etudier* up
 pointed at that page.
 
     etudier.py 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
+
+If you are interested in starting with keyword search results in Google Scholar
+you can do that too. For example here is the url for searching for "cscw memory"
+if I was interested in papers that talk about the CSCW conference and memory:
+
+    etudier.py 'https://scholar.google.com/scholar?hl=en&as_sdt=0%2C21&q=cscw+memory&btnG='
 
 Note: it's important to quote the URL so that the shell doesn't interpret the
 ampersands as an attempt to background the process.
