@@ -155,14 +155,13 @@ def get_html(url):
     If there is a captcha challenge it will alert the user and wait until 
     it has been completed.
     """
+
     time.sleep(random.randint(1,5))
     driver.get(url)
     while True:
         try:
             recap = driver.find_element_by_css_selector('#gs_captcha_ccl,#recaptcha')
         except NoSuchElementException:
-
-
             html = driver.find_element_by_css_selector('#gs_top').get_attribute('innerHTML')
             return requests_html.HTML(html=html)
         print("... it's CAPTCHA time!\a ...")
