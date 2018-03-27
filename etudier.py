@@ -17,17 +17,22 @@ driver = webdriver.Chrome()
 
 def main(url, output, depth=1, pages=1, debug=False):
     g = networkx.Graph()
-    for from_pub, to_pub in get_citations(url, depth=depth, pages=pages):
-        if debug:
-            print('from: %s' % json.dumps(from_pub))
-        g.add_node(from_pub['id'], label=from_pub['title'], **remove_nones(from_pub))
-        if to_pub:
+    try:
+        for from_pub, to_pub in get_citations(url, depth=depth, pages=pages):
             if debug:
-                print('to: %s' % json.dumps(to_pub))
-            print('%s -> %s' % (from_pub['id'], to_pub['id']))
-            g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
-            g.add_edge(from_pub['id'], to_pub['id'])
+                print('from: %s' % json.dumps(from_pub))
+            g.add_node(from_pub['id'], label=from_pub['title'], **remove_nones(from_pub))
+            if to_pub:
+                if debug:
+                    print('to: %s' % json.dumps(to_pub))
+                print('%s -> %s' % (from_pub['id'], to_pub['id']))
+                g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
+                g.add_edge(from_pub['id'], to_pub['id'])
+    except Exception as e:
+        print("caught exception %s" % e)
 
+
+    print("saving %s.html and %s.gexf" % (output, output))
     networkx.write_gexf(g, '%s.gexf' % output) 
     write_html(g, '%s.html' % output)
     driver.close()
@@ -155,6 +160,7 @@ def get_html(url):
     If there is a captcha challenge it will alert the user and wait until 
     it has been completed.
     """
+    global driver
 
     time.sleep(random.randint(1,5))
     driver.get(url)
@@ -162,8 +168,16 @@ def get_html(url):
         try:
             recap = driver.find_element_by_css_selector('#gs_captcha_ccl,#recaptcha')
         except NoSuchElementException:
-            html = driver.find_element_by_css_selector('#gs_top').get_attribute('innerHTML')
-            return requests_html.HTML(html=html)
+
+            try:
+                html = driver.find_element_by_css_selector('#gs_top').get_attribute('innerHTML')
+                return requests_html.HTML(html=html)
+            except NoSuchElementException:
+                print("google has blocked this browser, reopening")
+                driver.close()
+                driver = webdriver.Chrome()
+                return get_html(url)
+
         print("... it's CAPTCHA time!\a ...")
         time.sleep(5)
 
