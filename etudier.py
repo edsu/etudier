@@ -13,6 +13,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from urllib.parse import urlparse, parse_qs
 
+seen = set()
 driver = webdriver.Chrome()
 
 def main(url, output, depth=1, pages=1, debug=False):
@@ -73,7 +74,11 @@ def get_citations(url, depth=1, pages=1):
     Given a page of citations it will return bibliographic information
     for the source, target of a citation.
     """
+    if url in seen:
+        return
+
     html = get_html(url)
+    seen.add(url)
 
     # get the publication that these citations reference. 
     # Note: this can be None when starting with generic search results
