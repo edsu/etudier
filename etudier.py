@@ -13,23 +13,42 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from urllib.parse import urlparse, parse_qs
 
-driver = webdriver.Chrome()
+driver = None
 
-def main(url, output, depth=1, pages=1, debug=False):
+def main():
+    global driver
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument('url')
+    parser.add_argument('--depth', type=int, default=1)
+    parser.add_argument('--pages', type=int, default=1)
+    parser.add_argument('--output', type=str, default='output')
+    parser.add_argument('--debug', action="store_true", default=False)
+    args = parser.parse_args()
+
+    # ready to start up headless browser
+    driver = webdriver.Chrome()
+
+    # create our graph that will get populated
     g = networkx.Graph()
-    for from_pub, to_pub in get_citations(url, depth=depth, pages=pages):
-        if debug:
+
+    # iterate through all the citation links
+    for from_pub, to_pub in get_citations(args.url, depth=args.depth, pages=args.pages):
+        if args.debug:
             print('from: %s' % json.dumps(from_pub))
         g.add_node(from_pub['id'], label=from_pub['title'], **remove_nones(from_pub))
         if to_pub:
-            if debug:
+            if args.debug:
                 print('to: %s' % json.dumps(to_pub))
             print('%s -> %s' % (from_pub['id'], to_pub['id']))
             g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
             g.add_edge(from_pub['id'], to_pub['id'])
 
-    networkx.write_gexf(g, '%s.gexf' % output) 
-    write_html(g, '%s.html' % output)
+    # write the output files
+    networkx.write_gexf(g, '%s.gexf' % args.output) 
+    write_html(g, '%s.html' % args.output)
+
+    # close the browser
     driver.close()
 
 def get_cluster_id(url):
@@ -301,17 +320,5 @@ def to_json(g):
     return j
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('url')
-    parser.add_argument('--depth', type=int, default=1)
-    parser.add_argument('--pages', type=int, default=1)
-    parser.add_argument('--output', type=str, default='output')
-    parser.add_argument('--debug', action="store_true", default=False)
-    args = parser.parse_args()
-    main(
-        args.url,
-        output=args.output,
-        depth=args.depth,
-        pages=args.pages,
-        debug=args.debug
-    )
+    main()
+
