@@ -13,6 +13,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from urllib.parse import urlparse, parse_qs
 
+seen = set()
 driver = None
 
 def main():
@@ -87,7 +88,11 @@ def get_citations(url, depth=1, pages=1):
     Given a page of citations it will return bibliographic information
     for the source, target of a citation.
     """
+    if url in seen:
+        return
+
     html = get_html(url)
+    seen.add(url)
 
     # get the publication that these citations reference. 
     # Note: this can be None when starting with generic search results
@@ -146,7 +151,7 @@ def get_metadata(e):
         authors, source = meta_parts
 
     if source and ',' in source:
-        year = source.split(',')[1].strip()
+        year = source.split(',')[-1].strip()
     else:
         year = source
 
@@ -174,6 +179,7 @@ def get_html(url):
     If there is a captcha challenge it will alert the user and wait until 
     it has been completed.
     """
+    global driver
 
     time.sleep(random.randint(1,5))
     driver.get(url)
@@ -181,8 +187,16 @@ def get_html(url):
         try:
             recap = driver.find_element_by_css_selector('#gs_captcha_ccl,#recaptcha')
         except NoSuchElementException:
-            html = driver.find_element_by_css_selector('#gs_top').get_attribute('innerHTML')
-            return requests_html.HTML(html=html)
+
+            try:
+                html = driver.find_element_by_css_selector('#gs_top').get_attribute('innerHTML')
+                return requests_html.HTML(html=html)
+            except NoSuchElementException:
+                print("google has blocked this browser, reopening")
+                driver.close()
+                driver = webdriver.Chrome()
+                return get_html(url)
+
         print("... it's CAPTCHA time!\a ...")
         time.sleep(5)
 
