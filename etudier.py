@@ -31,7 +31,7 @@ def main():
     driver = webdriver.Chrome()
 
     # create our graph that will get populated
-    g = networkx.Graph()
+    g = networkx.DiGraph()
 
     # iterate through all the citation links
     for from_pub, to_pub in get_citations(args.url, depth=args.depth, pages=args.pages):
@@ -96,7 +96,7 @@ def get_citations(url, depth=1, pages=1):
 
     # get the publication that these citations reference. 
     # Note: this can be None when starting with generic search results
-    a = html.find('#gs_rt_hdr a', first=True)
+    a = html.find('#gs_res_ccl_top a', first=True)
     if a:
         to_pub = {
             'id': get_cluster_id(url),
@@ -105,7 +105,7 @@ def get_citations(url, depth=1, pages=1):
     else: 
         to_pub = None
 
-    for e in html.find('.gs_r'):
+    for e in html.find('#gs_res_ccl_mid .gs_r'):
 
         from_pub = get_metadata(e)
         yield from_pub, to_pub
