@@ -1,4 +1,4 @@
-<img style="float: left;" height=300 src="https://c1.staticflickr.com/2/1764/41255361380_f770f3f284_b.jpg">
+![example](./example.png)
 
 *étudier* is a small Python program that uses [Selenium] and [requests-html] to
 drive a *non-headless* browser to collect a citation graph around a particular
