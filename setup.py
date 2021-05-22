@@ -10,7 +10,7 @@ with open("README.md") as f:
 
 setup(
     name = 'etudier',
-    version = '0.0.7',
+    version = '0.0.8',
     url = 'https://github.com/edsu/etudier',
     author = 'Ed Summers',
     author_email = 'ehs@pobox.com',
@@ -23,6 +23,7 @@ setup(
     install_requires = [
         'selenium', 
         'requests-html', 
-        'networkx'
+        'networkx',
+        'pyppeteer'
     ]
 )

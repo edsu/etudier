@@ -81,7 +81,7 @@ def get_id(e):
             return get_cluster_id(a.attrs['href'])
         elif 'versions' in a.text:
             return get_cluster_id(a.attrs['href'])
-    return e.attrs['data-cid']
+    return e.attrs.get('data-cid')
 
 def get_citations(url, depth=1, pages=1):
     """
@@ -108,7 +108,10 @@ def get_citations(url, depth=1, pages=1):
     for e in html.find('#gs_res_ccl_mid .gs_r'):
 
         from_pub = get_metadata(e)
-        yield from_pub, to_pub
+        if from_pub:
+            yield from_pub, to_pub
+        else:
+            continue
 
         # depth first search if we need to go deeper
         if depth > 0 and from_pub['cited_by_url']:
@@ -133,6 +136,8 @@ def get_metadata(e):
     Fetch the citation metadata from a citation element on the page.
     """
     article_id = get_id(e)
+    if not article_id:
+        return None
 
     a = e.find('.gs_rt a', first=True)
     if a:
