@@ -2,3 +2,4 @@ __pycache__
 dist
 etudier.egg-info/
 Pipfile*
+build
