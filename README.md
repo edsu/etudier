@@ -18,7 +18,7 @@ collecting data.
 You'll need to install [ChromeDriver] before doing anything else. If you use
 Homebrew on OS X this is as easy as:
 
-    brew install chromedriver
+    brew cask install chromedriver
 
 Then you'll want to install [Python 3] and:
 
