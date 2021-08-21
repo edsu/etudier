@@ -3,9 +3,9 @@
 *étudier* is a small Python program that uses [Selenium] and [requests-html] to
 drive a *non-headless* browser to collect a citation graph around a particular
 [Google Scholar] citation or set of search results. The resulting network is
-written out as a [Gephi] file and a [D3] visualization using [networkx]. *The D3
-visualization could use some work, so if you add style to it please submit a
-pull request.*
+written out as a [Gephi] file and a [D3] visualization using [networkx].
+Current D3 visualization is inspired by [eyaler]. *The D3 visualization could
+use some work, so if you add style to it please submit a pull request.*
 
 If you are wondering why it uses a non-headless browser it's because Google is
 [quite protective] of this data and routinely will ask you to solve a captcha
@@ -13,7 +13,8 @@ If you are wondering why it uses a non-headless browser it's because Google is
 complete these tasks when they occur and then will continue on its way
 collecting data.
 
-### Install
+Install
+-------
 
 You'll need to install [ChromeDriver] before doing anything else. If you use
 Homebrew on OS X this is as easy as:
@@ -24,7 +25,8 @@ Then you'll want to install [Python 3] and:
 
     pip3 install etudier
 
-### Run
+Run
+---
 
 To use it you first need to navigate to a page on Google Scholar that you are
 interested in, for example here is the page of citations that reference Sherry
@@ -79,6 +81,26 @@ collected from Google Scholar including:
 - *cited-by* - the number of other publications that cite the publication
 - *cited-by-url* - a Google Scholar URL for the list of citing publications
 
+Features of html output
+-----------------------
+
+- Node's color shows its citation group
+- Node's size shows its times being cited (excpet root node)
+- Click node to open its source website (except root node)
+- Dragable nodes
+- Zoom and pan
+- Double-click to center node
+- Resizable window
+- Text labels
+- Hover to highlight 1st-order neighborhood
+- Click and press node to fade surroundings
+
+### Note
+
+Currently, difference between drag/click/press cannot be well distinguished,
+so after these actions, the source website of node will be open. Pull request
+to fix this bug is welcomed.
+
 [Theory in Anthropology since the Sixties]: https://scholar.google.com/scholar?hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc=
 [Google Scholar]: https://scholar.google.com
 [Selenium]: https://docs.seleniumhq.org/
@@ -89,3 +111,4 @@ collected from Google Scholar including:
 [D3]: https://d3js.org/
 [Python 3]: https://www.python.org/downloads/
 [ChromeDriver]: https://sites.google.com/a/chromium.org/chromedriver/
+[eyaler]: http://bl.ocks.org/eyaler/10586116
