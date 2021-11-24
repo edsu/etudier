@@ -24,11 +24,11 @@ def main():
     global driver
 
     parser = argparse.ArgumentParser()
-    parser.add_argument('url')
-    parser.add_argument('--depth', type=int, default=1)
-    parser.add_argument('--pages', type=int, default=1)
-    parser.add_argument('--output', type=str, default='output')
-    parser.add_argument('--debug', action="store_true", default=False)
+    parser.add_argument('url', help="URL for a Google Scholar search to start collecting from")
+    parser.add_argument('--depth', type=int, default=1, help="depth of the crawl in terms of levels of citation (defaults to 1)")
+    parser.add_argument('--pages', type=int, default=1, help="breadth of the crawl in terms of number of pages of results (defaults to 1)")
+    parser.add_argument('--output', type=str, default='output', help="file prefix to use for the output files (defaults to 'output')")
+    parser.add_argument('--debug', action="store_true", default=False, help="display diagnostics during the crawl")
     args = parser.parse_args()
 
     # ready to start up headless browser
@@ -167,7 +167,7 @@ def get_citations(url, depth=1, pages=1):
 
     for e in html.find('#gs_res_ccl_mid .gs_r'):
 
-        from_pub = get_metadata(e, to_pub['id'])
+        from_pub = get_metadata(e)
         if from_pub:
             yield from_pub, to_pub
         else:
@@ -191,7 +191,7 @@ def get_citations(url, depth=1, pages=1):
                     pages=pages-1
                 )
 
-def get_metadata(e, parent_id):
+def get_metadata(e):
     """
     Fetch the citation metadata from a citation element on the page.
     """
@@ -220,33 +220,20 @@ def get_metadata(e, parent_id):
     else:
         year = source
 
-    global min_cited_by
     cited_by = cited_by_url = None
     for a in e.find('.gs_fl a'):
         if 'Cited by' in a.text:
             cited_by = a.search('Cited by {:d}')[0]
-            if cited_by < min_cited_by:
-                min_cited_by = cited_by
             cited_by_url = 'https://scholar.google.com' + a.attrs['href']
-
-    global group
-
-    if parent_id not in group:
-        group.append(parent_id)
-
-    group_num = group.index(parent_id) + 1
 
     return {
         'id': article_id,
-        'parent_id': parent_id,
-        'group': group_num,
         'url': url,
         'title': title,
         'authors': authors,
         'year': year,
         'cited_by': cited_by,
-        'cited_by_url': cited_by_url,
-        'type': 'circle',
+        'cited_by_url': cited_by_url
     }
 
 def get_html(url):
