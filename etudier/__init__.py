@@ -93,8 +93,6 @@ def update_nodes(g):
     global min_cited_by
     global max_size
 
-    print(f'group={group} min_cited_by={min_cited_by} max_size={max_size}')
-
     try:
         for key in g.nodes.keys():
             if 'cited_by' in g.nodes[key]:
@@ -115,7 +113,6 @@ def update_nodes(g):
         breakpoint()
         exit(msg)
 
-    print(f'group={group} min_cited_by={min_cited_by} max_size={max_size}')
     return g
 
 def get_cluster_id(url):
@@ -298,9 +295,9 @@ def write_html(g, depth, output):
     html_file = Path(__file__).parent / "network.html"
     tmpl = Template(html_file.open().read())
     html = tmpl.substitute({
-        "depth": depth,
-        "max_size": max_size,
-        "graph_json": graph_json
+        "DEPTH": depth,
+        "MAX_SIZE": max_size,
+        "GRAPH_JSON": graph_json
     })
     Path(output).open('w').write(html)
 
