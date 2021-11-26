@@ -10,11 +10,12 @@ with open("README.md") as f:
 
 setup(
     name = 'etudier',
-    version = '0.0.8',
+    version = '0.1.0',
     url = 'https://github.com/edsu/etudier',
     author = 'Ed Summers',
     author_email = 'ehs@pobox.com',
-    py_modules = ['etudier',],
+    packages = ['etudier'],
+    package_data={"etudier": ["network.html"]},
     description = 'Collect a citation graph from Google Scholar',
     long_description=long_description,
     long_description_content_type="text/markdown",
