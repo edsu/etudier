@@ -109,23 +109,13 @@ var node = g.selectAll(".node")
 
 var timeout = null;
 
-node.on("click", function(d) {
+node.on("dblclick", function(d) {
     clearTimeout(timeout);
 
     timeout = setTimeout(function() {
       window.open(d.url, '_blank');
       d3.event.stopPropagation();
     }, 300)
-});
-
-node.on("dblclick.zoom", function(d) {
-    clearTimeout(timeout);
-
-    d3.event.stopPropagation();
-    var dcx = (window.innerWidth/2-d.x*zoom.scale());
-    var dcy = (window.innerHeight/2-d.y*zoom.scale());
-    zoom.translate([dcx,dcy]);
-    g.attr("transform", "translate("+ dcx + "," + dcy  + ")scale(" + zoom.scale() + ")");
 });
 
 var tocolor = "fill";
