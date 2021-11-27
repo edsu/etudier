@@ -15,12 +15,10 @@ from string import Template
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from urllib.parse import urlparse, parse_qs
+from networkx.algorithms.community.modularity_max import greedy_modularity_communities
 
 seen = set()
 driver = None
-group = []
-min_cited_by = 9999999
-max_size = 0
 
 def main():
     global driver
@@ -51,11 +49,12 @@ def main():
             g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
             g.add_edge(from_pub['id'], to_pub['id'])
 
-    # add size and score to nodes
-    update_nodes(g)
+    # cluster the nodes using neighborhood detection
+    cluster_nodes(g)
 
     # write the output files
     networkx.write_gexf(g, '%s.gexf' % args.output)
+    networkx.write_graphml(g, '%s.graphml' % args.output)
     write_html(g, args.depth+1, '%s.html' % args.output)
 
     # close the browser
@@ -84,35 +83,14 @@ def to_json(g):
 
     return j
 
-def update_nodes(g):
+def cluster_nodes(g):
     """
-    Add attributes of size, score (fractional from of group number) to
-    nodes.
+    Use Clauset-Newman-Moore greedy modularity maximization to cluster nodes.
     """
-    global group
-    global min_cited_by
-    global max_size
-
-    try:
-        for key in g.nodes.keys():
-            if 'cited_by' in g.nodes[key]:
-                g.nodes[key]['size'] = int(
-                    math.sqrt(g.nodes[key]['cited_by'] / min_cited_by)
-                )
-            else:
-                g.nodes[key]['size'] = 1
-            if g.nodes[key]['size'] > max_size:
-                max_size = g.nodes[key]['size']
-
-            if 'group' in g.nodes[key]:
-                g.nodes[key]['score'] = float(
-                    g.nodes[key]['group'])/len(group)
-            else:
-                g.nodes[key]['score'] = 0
-    except Exception as msg:
-        breakpoint()
-        exit(msg)
-
+    undirected_g = networkx.Graph(g)
+    for i, comm in enumerate(greedy_modularity_communities(undirected_g)):
+        for node in comm:
+            g.nodes[node]['modularity'] = i
     return g
 
 def get_cluster_id(url):
@@ -222,34 +200,20 @@ def get_metadata(e, to_pub):
     else:
         year = source
 
-    global min_cited_by
     cited_by = cited_by_url = None
     for a in e.find('.gs_fl a'):
         if 'Cited by' in a.text:
             cited_by = a.search('Cited by {:d}')[0]
-            if cited_by < min_cited_by:
-                min_cited_by = cited_by
             cited_by_url = 'https://scholar.google.com' + a.attrs['href']
-
-    global group
-
-    parent_id = to_pub.get('id') if to_pub else article_id
-    if parent_id not in group:
-        group.append(parent_id)
-
-    group_num = group.index(parent_id) + 1
 
     return {
         'id': article_id,
-        'parent_id': parent_id,
-        'group': group_num,
         'url': url,
         'title': title,
         'authors': authors,
         'year': year,
         'cited_by': cited_by,
         'cited_by_url': cited_by_url,
-        'type': 'circle'
     }
 
 def get_html(url):
@@ -294,11 +258,7 @@ def write_html(g, depth, output):
     graph_json = json.dumps(to_json(g), indent=2)
     html_file = Path(__file__).parent / "network.html"
     tmpl = Template(html_file.open().read())
-    html = tmpl.substitute({
-        "DEPTH": depth,
-        "MAX_SIZE": max_size,
-        "GRAPH_JSON": graph_json
-    })
+    html = tmpl.substitute({"__GRAPH_JSON__": graph_json})
     Path(output).open('w').write(html)
 
 if __name__ == "__main__":
