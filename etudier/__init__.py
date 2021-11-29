@@ -143,6 +143,12 @@ def get_citations(url, depth=1, pages=1):
             'id': get_cluster_id(url),
             'title': a.text,
         }
+        # try to get the total results for the item we are searching within
+        results = html.find('#gs_ab_md .gs_ab_mdw', first=True)
+        if results:
+            m = re.search('([0-9,]+) results', results.text)
+            if m:
+                to_pub['cited_by'] = int(m.group(1).replace(',', ''))
     else:
         to_pub = None
 
