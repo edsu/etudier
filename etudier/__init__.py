@@ -263,8 +263,12 @@ def remove_nones(d):
 def write_html(g, depth, output):
     graph_json = json.dumps(to_json(g), indent=2)
     html_file = Path(__file__).parent / "network.html"
+    opts = ' '.join(sys.argv[1:])
     tmpl = Template(html_file.open().read())
-    html = tmpl.substitute({"__GRAPH_JSON__": graph_json})
+    html = tmpl.substitute({
+        "__OPTIONS__": opts,
+        "__GRAPH_JSON__": graph_json
+    })
     Path(output).open('w').write(html)
 
 if __name__ == "__main__":
