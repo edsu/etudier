@@ -8,9 +8,10 @@ that includes a [D3] network visualization (pictured above).
 
 If you are wondering why it uses a non-headless browser it's because Google is
 [quite protective] of this data and will routinely ask you to solve a captcha
-(identifying street signs, cars, etc in photos) to prove you are not bot.
-*étudier* will allow you to complete these tasks when they occur and then it
-will continue on its way collecting data.
+(identifying street signs, cars, etc in photos) to prove you are not a bot.
+*étudier* allows you to complete these captcha tasks when they occur and then it
+continues on its way collecting data. You need to have a browser to interact
+with in order to do your part.
 
 Install
 -------
@@ -27,7 +28,7 @@ Then you'll want to install [Python 3] and:
 Run
 ---
 
-To use it you first need to navigate to a page on Google Scholar that you are
+To use étudier you first need to navigate to a page on Google Scholar that you are
 interested in, for example here is the page of citations that reference Sherry
 Ortner's [Theory in Anthropology since the Sixties]. Then you start *etudier* up
 pointed at that page.
@@ -46,7 +47,7 @@ ampersands as an attempt to background the process.
 ### --pages
 
 By default *étudier* will collect the 10 citations on that page and then look at
-the top 10 citatations that reference each one. So you will end up with no more
+the top 10 citations that reference each one. So you will end up with no more
 than 100 citations being collected (10 on each page * 10 citations).
 
 If you would like to get more than one page of results use the `--pages`. For
@@ -56,15 +57,15 @@ example this would result in no more than 400 (20 * 20) results being collected:
 
 ### --depth
 
-And finally if you would like to look at the citations of the citations you the
+And finally if you would like to look at the citations of the citations you use the
 --depth parameter. 
 
     % etudier --depth 2 'https://scholar.google.com/scholar?start=0&hl=en&as_sdt=20000005&sciodt=0,21&cites=17950649785549691519&scipsc='
 
 This will collect the initial set of 10 citations, the top 10 citations for
-each, and then the top 10 citations of each, so no more than 1000 citations 1000
-citations (10 * 10 * 10). It's no more because there is certain to be some
-duplication of publications in the citations of each.
+each, and then the top 10 citations of each of those, so no more than 1000
+citations 1000 citations (10 * 10 * 10). It's no more because there is certain
+to be some cross-citation duplication.
 
 ### --output
 
@@ -82,8 +83,8 @@ contain rudimentary metadata collected from Google Scholar including:
 - *cited-by-url* - a Google Scholar URL for the list of citing publications
 * modularity - the modularity value obtained from community detection
 
-Features of html output
------------------------
+Features of HTML/D3 output
+--------------------------
 
 - Node's color shows its citation group
 - Node's size shows its times being cited
@@ -107,4 +108,3 @@ Features of html output
 [D3]: https://d3js.org/
 [Python 3]: https://www.python.org/downloads/
 [ChromeDriver]: https://sites.google.com/a/chromium.org/chromedriver/
-[eyaler]: http://bl.ocks.org/eyaler/10586116
