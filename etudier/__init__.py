@@ -14,8 +14,10 @@ from pathlib import Path
 from string import Template
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 from urllib.parse import urlparse, parse_qs
 from networkx.algorithms.community.modularity_max import greedy_modularity_communities
+
 
 seen = set()
 driver = None
@@ -236,12 +238,12 @@ def get_html(url):
     driver.get(url)
     while True:
         try:
-            recap = driver.find_element_by_css_selector(
+            recap = driver.find_element(by=By.CSS_SELECTOR,
                 '#gs_captcha_ccl,#recaptcha')
         except NoSuchElementException:
 
             try:
-                html = driver.find_element_by_css_selector('#gs_top').\
+                html = driver.find_element(by=By.CSS_SELECTOR,'#gs_top').\
                         get_attribute('innerHTML')
                 return requests_html.HTML(html=html)
             except NoSuchElementException:
