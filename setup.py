@@ -10,7 +10,7 @@ with open("README.md") as f:
 
 setup(
     name = 'etudier',
-    version = '0.1.2',
+    version = '0.1.3',
     url = 'https://github.com/edsu/etudier',
     author = 'Ed Summers',
     author_email = 'ehs@pobox.com',
@@ -22,9 +22,9 @@ setup(
     entry_points={'console_scripts': ['etudier = etudier:main']},
     python_requires=">=3",
     install_requires = [
-        'selenium', 
-        'requests-html', 
-        'networkx',
-        'pyppeteer'
+        'selenium>=4.7', 
+        'requests>=2.28',
+        'requests-html>=0.10', 
+        'networkx>=2.8'
     ]
 )

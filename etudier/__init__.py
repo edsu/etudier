@@ -2,7 +2,6 @@
 
 import re
 import sys
-import math
 import json
 import time
 import random
@@ -234,17 +233,18 @@ def get_html(url):
     """
     global driver
 
+    if driver is None:
+        raise Exception("driver is not configured!")
+
     time.sleep(random.randint(1,5))
     driver.get(url)
     while True:
         try:
-            recap = driver.find_element(by=By.CSS_SELECTOR,
-                '#gs_captcha_ccl,#recaptcha')
+            driver.find_element(By.CSS_SELECTOR, '#gs_captcha_ccl,#recaptcha')
         except NoSuchElementException:
 
             try:
-                html = driver.find_element(by=By.CSS_SELECTOR,'#gs_top').\
-                        get_attribute('innerHTML')
+                html = driver.find_element(By.CSS_SELECTOR,'#gs_top').get_attribute('innerHTML')
                 return requests_html.HTML(html=html)
             except NoSuchElementException:
                 print("google has blocked this browser, reopening")
