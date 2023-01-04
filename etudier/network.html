@@ -295,7 +295,10 @@ https://github.com/edsu/etudier using the following command:
 
           text.text(function (o) {
             if (isConnected(d, o)) {
-              return " " + (o.authors ? o.title + " - " + o.authors : o.title);
+              let title = o.title;
+              if (o.year) title = title + " (" + o.year + ")";
+              if (o.authors) title = title + " - " + o.authors;
+              return title
             } else {
               return ""
             }

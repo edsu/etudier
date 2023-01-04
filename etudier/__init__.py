@@ -50,13 +50,11 @@ def main():
             g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
             g.add_edge(from_pub['id'], to_pub['id'])
 
-    # cluster the nodes using neighborhood detection
-    cluster_nodes(g)
+        # generate output as we go in the case of sisyphean google captcha 
+        write_output(g, args)
 
-    # write the output files
-    networkx.write_gexf(g, '%s.gexf' % args.output)
-    networkx.write_graphml(g, '%s.graphml' % args.output)
-    write_html(g, args.depth+1, '%s.html' % args.output)
+    # cluster the nodes using neighborhood detection
+    #write_output(g, args)
 
     # close the browser
     driver.close()
@@ -262,7 +260,13 @@ def remove_nones(d):
             new_d[k] = v
     return new_d
 
-def write_html(g, depth, output):
+def write_output(g, args):
+    cluster_nodes(g)
+    networkx.write_gexf(g, '%s.gexf' % args.output)
+    networkx.write_graphml(g, '%s.graphml' % args.output)
+    write_html(g, '%s.html' % args.output)
+
+def write_html(g, output):
     graph_json = json.dumps(to_json(g), indent=2)
     html_file = Path(__file__).parent / "network.html"
     opts = ' '.join(sys.argv[1:])

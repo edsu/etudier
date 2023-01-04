@@ -10,7 +10,7 @@ with open("README.md") as f:
 
 setup(
     name = 'etudier',
-    version = '0.1.3',
+    version = '0.2.0',
     url = 'https://github.com/edsu/etudier',
     author = 'Ed Summers',
     author_email = 'ehs@pobox.com',
