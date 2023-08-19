@@ -107,4 +107,4 @@ Features of HTML/D3 output
 [networkx]: https://networkx.github.io/
 [D3]: https://d3js.org/
 [Python 3]: https://www.python.org/downloads/
-[ChromeDriver]: https://sites.google.com/a/chromium.org/chromedriver/
+[ChromeDriver]: https://sites.google.com/chromium.org/driver/
