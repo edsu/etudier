@@ -50,11 +50,8 @@ def main():
             g.add_node(to_pub['id'], label=to_pub['title'], **remove_nones(to_pub))
             g.add_edge(from_pub['id'], to_pub['id'])
 
-        # generate output as we go in the case of sisyphean google captcha 
-        write_output(g, args)
-
     # cluster the nodes using neighborhood detection
-    #write_output(g, args)
+    write_output(g, args)
 
     # close the browser
     driver.close()
@@ -136,6 +133,7 @@ def get_citations(url, depth=1, pages=1):
 
     # get the publication that these citations reference.
     # Note: this can be None when starting with generic search results
+
     a = html.find('#gs_res_ccl_top a', first=True)
     if a:
         to_pub = {

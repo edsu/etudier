@@ -3,3 +3,4 @@ dist
 etudier.egg-info/
 Pipfile*
 build
+uv.lock
