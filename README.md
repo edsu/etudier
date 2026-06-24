@@ -16,14 +16,14 @@ with in order to do your part.
 Install
 -------
 
-You'll need to install [ChromeDriver] before doing anything else. If you use
-Homebrew on OS X this is as easy as:
-
-    brew cask install chromedriver
-
-Then you'll want to install [Python 3] and:
+You'll want to install [Python 3] and then:
 
     pip3 install etudier
+
+étudier drives a Chrome browser, so you'll need [Chrome] installed. Selenium
+(>=4.7, already a dependency) downloads a matching [ChromeDriver] for you, so
+there's no separate driver to install. If an older chromedriver on your `PATH`
+doesn't match your installed Chrome, remove it and let Selenium manage it.
 
 Run
 ---
@@ -107,4 +107,5 @@ Features of HTML/D3 output
 [networkx]: https://networkx.github.io/
 [D3]: https://d3js.org/
 [Python 3]: https://www.python.org/downloads/
-[ChromeDriver]: https://sites.google.com/a/chromium.org/chromedriver/
+[Chrome]: https://www.google.com/chrome/
+[ChromeDriver]: https://developer.chrome.com/docs/chromedriver
